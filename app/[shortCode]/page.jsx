@@ -1,57 +1,74 @@
+import { supabase } from '@/libs/supabase';
 import { readUrls } from '@/libs/urlStorage';
 
 // Fungsi untuk menghasilkan metadata
 export async function generateMetadata({ params }) {
-  const { shortCode } = params; // Mendapatkan shortCode dari params
+  const { shortCode } = params;
 
-  // Membaca URL dari file JSON
-  const urls = readUrls();
+  // Query ke Supabase untuk mendapatkan URL berdasarkan shortCode
+  const { data: foundUrl, error } = await supabase
+    .from('short')
+    .select('*')
+    .eq('short', shortCode)
+    .single();
 
-  // Mencari URL asli berdasarkan shortCode
-  const foundUrl = urls.find((url) => url.short === shortCode);
+  if (error || !foundUrl) {
+    // Jika URL tidak ditemukan, kembalikan metadata untuk halaman 404
+    return {
+      title: 'URL Not Found',
+      description: 'The URL you requested was not found.',
+      openGraph: {
+        title: '404 - URL Not Found',
+        description: 'The URL you requested was not found.',
+        images: [],
+      },
+    };
+  }
 
-  // Mengatur metadata
+  // Mengatur metadata jika URL ditemukan
   return {
-    title: foundUrl ? `Shortened URL for ${foundUrl.original}` : 'URL Not Found',
-    description: foundUrl ? `This is a shortened URL for ${foundUrl.original}` : 'The URL you requested was not found.',
+    title: `Shortened URL for ${foundUrl.original}`,
+    description: `This is a shortened URL for ${foundUrl.original}`,
     openGraph: {
-      title: foundUrl ? `Shortened URL for ${foundUrl.original}` : '404 - URL Not Found',
-      description: foundUrl ? `Redirecting to ${foundUrl.original}` : 'The URL you requested was not found.',
-      images: foundUrl ? ['/path-to-your-default-image.jpg'] : [], // Ganti dengan gambar yang sesuai
+      title: `Shortened URL for ${foundUrl.original}`,
+      description: `Redirecting to ${foundUrl.original}`,
+      images: ['/path-to-your-default-image.jpg'], // Ganti dengan gambar yang sesuai
     },
   };
 }
 
-export default function Page({ params }) {
-  const { shortCode } = params; // Mendapatkan shortCode dari params
+export default async function Page({ params }) {
+  const { shortCode } = params;
 
-  // Membaca URL dari file JSON
-  const urls = readUrls();
+  // Query ke Supabase untuk mendapatkan URL berdasarkan shortCode
+  const { data: foundUrl, error } = await supabase
+    .from('short')
+    .select('*')
+    .eq('short', shortCode)
+    .single();
 
-  // Mencari URL asli berdasarkan shortCode
-  const foundUrl = urls.find((url) => url.short === shortCode);
-
-  if (foundUrl) {
+  if (error || !foundUrl) {
+    // Jika tidak ditemukan, kembalikan halaman 404
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
-        <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md text-center">
-          <form action={foundUrl.original} method="GET">
-            <button
-              type="submit"
-              className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 transition duration-200"
-            >
-              Open URL
-            </button>
-          </form>
-        </div>
+      <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
+        <h1 className="text-2xl font-bold">404 - URL not found</h1>
       </div>
     );
   }
 
-  // Jika tidak ditemukan, mengembalikan halaman 404 atau pesan kesalahan
+  // Jika URL ditemukan, render tombol untuk membuka URL asli
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
-      <h1 className="text-2xl font-bold">404 - URL not found</h1>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
+      <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md text-center">
+        <form action={foundUrl.original} method="GET">
+          <button
+            type="submit"
+            className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 transition duration-200"
+          >
+            Open URL
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

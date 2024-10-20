@@ -1,6 +1,7 @@
 import { nanoid } from 'nanoid';
 import { readUrls, writeUrls } from '../../../libs/urlStorage'
 import { NextResponse } from 'next/server';  // Digunakan untuk mengembalikan response
+import { supabase } from '@/libs/supabase';
 
 
 // Fungsi untuk menangani POST request
@@ -14,20 +15,21 @@ export async function POST(req) {
 
   const shortCode = nanoid(6); // Membuat kode pendek
 
-  // Membaca data URL yang ada
-  const urls = readUrls();
+  // Menyimpan URL ke dalam Supabase
+  const { data, error } = await supabase
+    .from('short') // Nama tabel di Supabase
+    .insert([
+      {
+        original: url,
+        short: shortCode,
+        created_at: new Date().toISOString(),
+      },
+    ]);
 
-  // Menambahkan URL baru
-  const newUrl = {
-    original: url,
-    short: shortCode,
-    createdAt: new Date().toISOString(),
-  };
-
-  urls.push(newUrl);
-
-  // Menyimpan kembali ke file JSON
-  writeUrls(urls);
+  if (error) {
+    console.error('Error inserting data:', error);
+    return NextResponse.json({ message: 'Error saving URL' }, { status: 500 });
+  }
 
   // Mengembalikan response dengan short URL yang baru dibuat
   return NextResponse.json(
