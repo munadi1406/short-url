@@ -1,19 +1,20 @@
 'use client'; // Menggunakan client component
 
-// import SubtitleUpload from '@/components/Subtitle';
 import { useState } from 'react';
 
 export default function ShortenUrlPage() {
   const [url, setUrl] = useState('');
   const [shortUrl, setShortUrl] = useState('');
   const [error, setError] = useState('');
+  const [copied, setCopied] = useState(false); // Menambahkan state untuk tombol 'copy'
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Mencegah reload halaman
 
-    // Reset state error
+    // Reset state error dan shortUrl
     setError('');
     setShortUrl('');
+    setCopied(false); // Reset state copy
 
     try {
       const response = await fetch('/api/shorten', {
@@ -37,9 +38,24 @@ export default function ShortenUrlPage() {
     }
   };
 
+  // Fungsi untuk menyalin short URL ke clipboard
+  const handleCopy = () => {
+    navigator.clipboard.writeText(shortUrl).then(() => {
+      setCopied(true); // Menandai bahwa URL telah disalin
+      setTimeout(() => setCopied(false), 2000); // Mengembalikan status 'copied' ke false setelah 2 detik
+    });
+  };
+
+  // Fungsi untuk mereset input dan hasil
+  const handleClear = () => {
+    setUrl(''); // Mengosongkan input URL
+    setShortUrl(''); // Mengosongkan hasil short URL
+    setError(''); // Menghapus pesan error
+    setCopied(false); // Reset status copy
+  };
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
-      {/* <div><SubtitleUpload /></div> */}
       <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
         <h1 className="text-2xl font-bold mb-6 text-center text-gray-700">Shorten Your URL</h1>
         <form onSubmit={handleSubmit}>
@@ -70,6 +86,22 @@ export default function ShortenUrlPage() {
             >
               {shortUrl}
             </a>
+            <div className="mt-4 flex space-x-2">
+              <button
+                onClick={handleCopy}
+                className={`bg-green-500 text-white p-2 rounded-md transition duration-200 ${
+                  copied ? 'bg-green-600' : 'hover:bg-green-600'
+                }`}
+              >
+                {copied ? 'Copied!' : 'Copy URL'}
+              </button>
+              <button
+                onClick={handleClear}
+                className="bg-red-500 text-white p-2 rounded-md hover:bg-red-600 transition duration-200"
+              >
+                Clear
+              </button>
+            </div>
           </div>
         )}
 
@@ -79,7 +111,6 @@ export default function ShortenUrlPage() {
           </div>
         )}
       </div>
-
     </div>
   );
 }
