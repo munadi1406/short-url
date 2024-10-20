@@ -67,7 +67,7 @@ export default async function Page({ params }) {
           >
             Open URL
           </button>
-          <a  className="w-full bg-red-500 text-white p-2 rounded-md hover:bg-blue-600 transition duration-200" href="https://www.cpmrevenuegate.com/rp2imb0n?key=f160ee10eadd89159374dff047543fb8" target="_blank" rel="noopener noreferrer">Don't Click !!!</a>
+          <a  className="w-full bg-red-500 text-white p-2 rounded-md hover:bg-blue-600 transition duration-200" href="https://www.cpmrevenuegate.com/rp2imb0n?key=f160ee10eadd89159374dff047543fb8" target="_blank" rel="noopener noreferrer">Dont Click !!!</a>
         </form>
       </div>
     </div>
