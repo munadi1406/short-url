@@ -54,11 +54,7 @@ export default function RootLayout({ children }) {
             src="//www.topcpmcreativeformat.com/c3e82ae562c983a4a204dc857f473def/invoke.js"
           />
         </div>
-        <Script
-          id="adsterra-invoke"
-          strategy="lazyOnload"
-          src="//www.topcpmcreativeformat.com/c3e82ae562c983a4a204dc857f473def/invoke.js"
-        />
+       
         {children}
       </body>
     </html>
