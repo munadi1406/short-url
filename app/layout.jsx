@@ -33,20 +33,27 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Script
-          id="adsterra-banner"
-          strategy="lazyOnload" // Script akan dimuat saat halaman selesai memuat
-        >
-          {`
-            atOptions = {
-              'key' : 'c3e82ae562c983a4a204dc857f473def',
-              'format' : 'iframe',
-              'height' : 90,
-              'width' : 728,
-              'params' : {}
-            };
-          `}
-        </Script>
+        <div className="fixed top-0 left-1/2 transform -translate-x-1/2 z-50">
+          <Script
+            id="adsterra-banner"
+            strategy="lazyOnload" // Script akan dimuat saat halaman selesai memuat
+          >
+            {`
+              atOptions = {
+                'key' : 'c3e82ae562c983a4a204dc857f473def',
+                'format' : 'iframe',
+                'height' : 90,
+                'width' : 728,
+                'params' : {}
+              };
+            `}
+          </Script>
+          <Script
+            id="adsterra-invoke"
+            strategy="lazyOnload"
+            src="//www.topcpmcreativeformat.com/c3e82ae562c983a4a204dc857f473def/invoke.js"
+          />
+        </div>
         <Script
           id="adsterra-invoke"
           strategy="lazyOnload"
