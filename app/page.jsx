@@ -55,7 +55,7 @@ export default function ShortenUrlPage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
+    <div className="flex flex-col items-center justify-center  p-4">
       <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
         <h1 className="text-2xl font-bold mb-6 text-center text-gray-700">Shorten Your URL</h1>
         <form onSubmit={handleSubmit}>

@@ -31,9 +31,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-100`}
       >
-        <div className="fixed top-0 left-1/2 transform -translate-x-1/2 z-50">
+        <div className="relative top-0  w-screen left-1/2 transform -translate-x-1/2 z-50">
+
           <Script
             id="adsterra-banner"
             strategy="lazyOnload" // Script akan dimuat saat halaman selesai memuat
@@ -53,10 +54,14 @@ export default function RootLayout({ children }) {
             strategy="lazyOnload"
             src="//www.topcpmcreativeformat.com/c3e82ae562c983a4a204dc857f473def/invoke.js"
           />
+          
+          <Script async="async" data-cfasync="false" src="//pl24748248.cpmrevenuegate.com/558f342bf47b0fe5dc036c0091fd4b80/invoke.js"></Script>
+          <div id="container-558f342bf47b0fe5dc036c0091fd4b80"></div>
+          
         </div>
-       
+
         {children}
       </body>
     </html>
   );
-}
+} 

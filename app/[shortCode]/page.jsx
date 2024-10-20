@@ -1,5 +1,5 @@
 import { supabase } from '@/libs/supabase';
-import { readUrls } from '@/libs/urlStorage';
+
 
 // Fungsi untuk menghasilkan metadata
 export async function generateMetadata({ params }) {
@@ -58,15 +58,16 @@ export default async function Page({ params }) {
 
   // Jika URL ditemukan, render tombol untuk membuka URL asli
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
+    <div className="flex flex-col items-center justify-center  bg-gray-100 p-4">
       <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md text-center">
-        <form action={foundUrl.original} method="GET">
+        <form action={foundUrl.original} method="GET" className='flex flex-col justify-center items-center gap-2'>
           <button
             type="submit"
             className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 transition duration-200"
           >
             Open URL
           </button>
+          <a  className="w-full bg-red-500 text-white p-2 rounded-md hover:bg-blue-600 transition duration-200" href="https://www.cpmrevenuegate.com/rp2imb0n?key=f160ee10eadd89159374dff047543fb8" target="_blank" rel="noopener noreferrer">Don't Click !!!</a>
         </form>
       </div>
     </div>
