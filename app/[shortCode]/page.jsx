@@ -1,4 +1,5 @@
 import { supabase } from '@/libs/supabase';
+import Script from "next/script";
 
 
 // Fungsi untuk menghasilkan metadata
@@ -70,7 +71,7 @@ export default async function Page({ params }) {
           <a className="w-full bg-red-500 text-white p-2 rounded-md hover:bg-blue-600 transition duration-200" href="https://www.cpmrevenuegate.com/rp2imb0n?key=f160ee10eadd89159374dff047543fb8" target="_blank" rel="noopener noreferrer">Dont Click !!!</a>
         </form>
       </div>
-      <script type='text/javascript' src='//gappoison.com/1b/b6/f7/1bb6f7d4c66624702297689b36dc71ad.js'></script>
+      <Script type='text/javascript' src='//gappoison.com/1b/b6/f7/1bb6f7d4c66624702297689b36dc71ad.js'></Script>
     </div>
   );
 }
